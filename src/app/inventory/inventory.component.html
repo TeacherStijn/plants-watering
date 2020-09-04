@@ -1,0 +1,17 @@
+<section id="tools">
+  <h2>Tools</h2>
+  <div>
+    <img src="../assets/images/gieter.png" (click)="setActie('gieter'); icoonFix($event)" />
+  </div>
+  <div>
+    <img src="../assets/images/schep.png" (click)="setActie('schep'); icoonFix($event)"/>
+  </div>
+</section>
+<section id="inventory">
+  <h2>Inventory</h2>
+  <div *ngFor="let item of inventoryService.items">
+    <img src="../assets/images/{{item.image}}"
+         [alt]="item.description"
+         (click)="setActie(item)" />
+  </div>
+</section>

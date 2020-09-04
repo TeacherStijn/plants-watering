@@ -1,0 +1,5 @@
+<div *ngFor="let item of plantenService.planten">
+  <img src="../assets/images/{{ item.image }}"
+       [alt]="item.description"
+       (click)="acties(item)" />
+</div>

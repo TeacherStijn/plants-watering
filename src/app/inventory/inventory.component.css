@@ -1,0 +1,11 @@
+div, div img {
+  width: 50px;
+  height: 50px;
+  display: inline;
+}
+
+#inventory {
+  max-height: 150px;
+  max-width: 500px;
+  overflow: auto;
+}
