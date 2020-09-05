@@ -1,6 +1,10 @@
 export class Item {
   description;
-  constructor(public type?: string) {
+  constructor(public id?: number, public type?: string) {
 
+  }
+
+  get image() {
+    return null;
   }
 }

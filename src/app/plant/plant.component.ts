@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Plant} from "../shared/models/plant.model";
 import {InventoryService} from "../shared/inventory.service";
 import {PlantenService} from "../shared/planten.service";
-import {Achievement} from "../shared/models/achievement.model";
 import {AchievementService} from "../shared/achievement.service";
 import {Grond} from "../shared/models/grond.model";
 import {Item} from "../shared/models/item.model";
+import {Gieter} from "../shared/models/gieter.model";
+import {Rarity} from "../shared/models/rarity.model";
 
 @Component({
   selector: 'app-plant',
@@ -14,7 +15,7 @@ import {Item} from "../shared/models/item.model";
 })
 export class PlantComponent implements OnInit {
 
-  actie: Item;
+  actie: Item = new Item(new Date().getUTCMilliseconds(), 'gieter');
   numClicksOpPlanten: number = 0;
 
   constructor(
@@ -53,12 +54,12 @@ export class PlantComponent implements OnInit {
     }
   }
 
-  acties(plantje) {
+  acties(item) {
     // Het is aan het plantje zélf om te level-uppen
     // Echter liggen de condities hier in de controller vast
     console.log(this.actie);
     if (this.actie == undefined) {
-      this.actie = new Item("gieter");
+      this.actie = new Gieter(1, Rarity.COMMON);
     }
 
     this.numClicksOpPlanten++;
@@ -66,13 +67,13 @@ export class PlantComponent implements OnInit {
       this.achievementService.achievementBus$.next("And so it begins");
     }
 
-    if (this.actie.type === 'gieter') {
+    if (this.actie.type.toLowerCase() === 'gieter') {
       const now: any = new Date().getTime();
 
-      if (now - plantje.recentWaterTime >= 1000) {
+      if (now - item.recentWaterTime >= 1000) {
         console.log('Two minutes (1 sec) have passed');
-        const levelResult = plantje.levelUp();
-        plantje.recentWaterTime = now;
+        const levelResult = item.levelUp();
+        item.recentWaterTime = now;
 
         // Check of teruggegeven item plantje is en dood is
         if (levelResult instanceof Plant && levelResult.level == 0) {
@@ -85,20 +86,26 @@ export class PlantComponent implements OnInit {
       } else {
         console.log('Plant recently received water');
       }
-    } else if (this.actie.type === 'schep') {
-      const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(plantje), 1);
+    } else if (this.actie.type.toLowerCase() === 'schep') {
+      const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(item), 1);
       this.inventoryService.inventoryBus$.next(verwijderd[0]);
     } else if (this.actie.type.toLowerCase() === 'grond') {
-      alert("You could plant a seed here");
+      alert('You could plant a seed here');
     } else if (this.actie.type.toLowerCase() === 'seed') {
-      // zaadjes?
-      alert("Planting a seed...");
-      // Nieuwe plant:
-      const newPlant = new Plant(plantje.name, 1, new Date().getUTCMilliseconds(), plantje.rarity);
-      this.plantenService.replace(plantje, this.actie);
-      // vervangen 'plantje' door 'seed' (welke?) logo
+      // Nog verder customizen?
+      // Of is .name en .rarity voldoende?
+      const newPlant = new Plant(item.name, 1, new Date().getUTCMilliseconds(), item.rarity);
+      this.plantenService.replace(item, newPlant);
+      this.inventoryService.verwijderBus$.next(this.actie);
+      this.actie = new Item(new Date().getUTCMilliseconds(), 'gieter');
     } else {
       // er is op iets anders geklikt
     }
+  }
+
+  getCursor(): { cursor: string } {
+    return {
+      'cursor': 'url(../assets/images/' + this.actie.image + '), auto'
+    };
   }
 }
