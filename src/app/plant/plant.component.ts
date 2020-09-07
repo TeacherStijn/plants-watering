@@ -15,6 +15,10 @@ import {Rarity} from "../shared/models/rarity.model";
 })
 export class PlantComponent implements OnInit {
 
+  aantalX = 8;
+  aantalY = 8;
+  imgWidth = window.innerWidth / this.aantalX;
+
   actie: Item = new Item(new Date().getUTCMilliseconds(), 'gieter');
   numClicksOpPlanten: number = 0;
 
@@ -44,21 +48,21 @@ export class PlantComponent implements OnInit {
         }
       );
     } else {
-      // Nog even het aantal planten aanpassen
-      // naar screensize % 50px op x en y as
-      for (let a = 0; a <= 150; a++) {
-        this.plantenService.plantenBus$.next(
-          new Grond(a)
-        );
+      for (let y = 1; y <= this.aantalY; y++) {
+        for (let x = 1; x <= this.aantalX; x++) {
+          this.plantenService.plantenBus$.next(
+            new Grond()
+          );
+        }
       }
     }
   }
 
-  acties(item) {
+  acties(item, ev) {
     // Het is aan het plantje zélf om te level-uppen
     // Echter liggen de condities hier in de controller vast
     console.log(this.actie);
-    if (this.actie == undefined) {
+    if (this.actie === undefined) {
       this.actie = new Gieter(1, Rarity.COMMON);
     }
 
@@ -87,10 +91,11 @@ export class PlantComponent implements OnInit {
         console.log('Plant recently received water');
       }
     } else if (this.actie.type.toLowerCase() === 'schep') {
-      const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(item), 1);
-      this.inventoryService.inventoryBus$.next(verwijderd[0]);
-    } else if (this.actie.type.toLowerCase() === 'grond') {
-      alert('You could plant a seed here');
+      // Scheppen van grond heeft geen zin
+      if (!(item instanceof Grond)) {
+        const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(item), 1, new Grond());
+        this.inventoryService.inventoryBus$.next(verwijderd[0]);
+      }
     } else if (this.actie.type.toLowerCase() === 'seed') {
       // Nog verder customizen?
       // Of is .name en .rarity voldoende?
@@ -98,6 +103,7 @@ export class PlantComponent implements OnInit {
       this.plantenService.replace(item, newPlant);
       this.inventoryService.verwijderBus$.next(this.actie);
       this.actie = new Item(new Date().getUTCMilliseconds(), 'gieter');
+      this.resetCursor(ev);
     } else {
       // er is op iets anders geklikt
     }
@@ -107,5 +113,9 @@ export class PlantComponent implements OnInit {
     return {
       'cursor': 'url(../assets/images/' + this.actie.image + '), auto'
     };
+  }
+
+  resetCursor(ev): void {
+    document.body.style.cursor = 'url(../assets/images/gieter_ico.png), auto';
   }
 }

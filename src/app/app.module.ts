@@ -6,13 +6,15 @@ import { PlantComponent } from './plant/plant.component';
 import {FormsModule} from "@angular/forms";
 import { InventoryComponent } from './inventory/inventory.component';
 import { AchievementComponent } from './achievement/achievement.component';
+import { ShopComponent } from './shop/shop.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlantComponent,
     InventoryComponent,
-    AchievementComponent
+    AchievementComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule, FormsModule
