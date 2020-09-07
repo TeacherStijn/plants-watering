@@ -1,1 +1,5 @@
-<p>shop works!</p>
+<p>Ye olde shoppe</p>
+<span>Current goldlings: {{ goldlings }}</span>
+<div *ngFor="let item of shopService.items" (click)="buy(item)">
+  <img [src]="item.image" />
+</div>

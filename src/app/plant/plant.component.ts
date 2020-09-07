@@ -80,7 +80,7 @@ export class PlantComponent implements OnInit {
         item.recentWaterTime = now;
 
         // Check of teruggegeven item plantje is en dood is
-        if (levelResult instanceof Plant && levelResult.level == 0) {
+        if (levelResult instanceof Plant && levelResult.level === 0) {
           this.plantenService.planten.splice(this.plantenService.planten.indexOf(levelResult), 1);
         }
 
@@ -99,6 +99,8 @@ export class PlantComponent implements OnInit {
     } else if (this.actie.type.toLowerCase() === 'seed') {
       // Nog verder customizen?
       // Of is .name en .rarity voldoende?
+
+      // Onderstaand nieuwe plant op basis van Seed name =) en Seed rarity =)
       const newPlant = new Plant(item.name, 1, new Date().getUTCMilliseconds(), item.rarity);
       this.plantenService.replace(item, newPlant);
       this.inventoryService.verwijderBus$.next(this.actie);

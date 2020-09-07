@@ -3,6 +3,5 @@ export enum Rarity {
   UNCOMMON = "darkgray",
   RARE = "brown",
   EPIC = "purple",
-  LEGENDARY = "ORANGE",
-  MYTHIC = "white"
+  LEGENDARY = "orange"
 }

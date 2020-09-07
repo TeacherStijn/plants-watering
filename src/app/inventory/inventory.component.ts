@@ -37,7 +37,7 @@ export class InventoryComponent implements OnInit {
       // lege inventory (clean / begin item?)
       // gratis 10 zaadjes
       for (let i = 0; i <= 10; i++) {
-        this.inventoryService.inventoryBus$.next(new Seed(new Date().getUTCMilliseconds(), SeedNames.SIMPLE, Rarity.COMMON));
+        this.inventoryService.inventoryBus$.next(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
       }
     }
   }
