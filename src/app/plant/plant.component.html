@@ -1,7 +1,7 @@
 <div  *ngFor="let item of plantenService.planten"
-      [ngStyle]="{ 'width': + (100/aantalX) + '%' }">
+      [ngStyle]="{ 'width': + (100/aantalX) + '%', 'height': '100px' }">
   <img src="../assets/images/{{ item.image }}"
        [alt]="item.description"
-       (click)="acties(item, $event)"
+       (click)="acties(item)"
        />
 </div>

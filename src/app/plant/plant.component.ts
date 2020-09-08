@@ -58,7 +58,7 @@ export class PlantComponent implements OnInit {
     }
   }
 
-  acties(item, ev) {
+  acties(item) {
     // Het is aan het plantje zélf om te level-uppen
     // Echter liggen de condities hier in de controller vast
     console.log(this.actie);
@@ -105,19 +105,9 @@ export class PlantComponent implements OnInit {
       this.plantenService.replace(item, newPlant);
       this.inventoryService.verwijderBus$.next(this.actie);
       this.actie = new Item(new Date().getUTCMilliseconds(), 'gieter');
-      this.resetCursor(ev);
+      this.inventoryService.resetCursor();
     } else {
       // er is op iets anders geklikt
     }
-  }
-
-  getCursor(): { cursor: string } {
-    return {
-      'cursor': 'url(../assets/images/' + this.actie.image + '), auto'
-    };
-  }
-
-  resetCursor(ev): void {
-    document.body.style.cursor = 'url(../assets/images/gieter_ico.png), auto';
   }
 }

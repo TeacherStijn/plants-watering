@@ -1,5 +1,45 @@
-div, div img {
+section {
+  background-color: lightgray;
+  padding: 1em;
+}
+
+#currentShop div, div img {
   width: 50px;
   height: 50px;
   display: inline;
+}
+
+#current img {
+  width: 20px;
+  height: 20px;
+}
+
+#current {
+  font-weight: bold;
+}
+
+#current span {
+  font-size: 2.5em;
+}
+
+#sellArea {
+  display: block;
+  height: 250px;
+  width: 100%;
+  color: white;
+}
+
+#sellArea {
+  background-color: dimgrey;
+  padding: 0.5em;
+  font-size: large;
+}
+
+#sellArea section {
+  padding: 0px;
+  height: 40px;
+}
+
+#sellHeader {
+  color: white;
 }

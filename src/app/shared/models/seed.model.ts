@@ -14,7 +14,9 @@ export class Seed extends Item {
     // of enkel CSS kleur overlay / tekstkleur
     // op basis van Rarity.valueOf()
     //return this.name.valueOf();
-    return "basic_seed.png";
+
+    // Vervangen door ICON font met color overlay!
+    return "seed.png"; // basic_seed.png?
   }
 
   get aankoopprijs() {

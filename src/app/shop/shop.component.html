@@ -1,5 +1,35 @@
-<p>Ye olde shoppe</p>
-<span>Current goldlings: {{ goldlings }}</span>
-<div *ngFor="let item of shopService.items" (click)="buy(item)">
-  <img [src]="item.image" />
-</div>
+<section>
+  <article id="currentShop">
+    <div id="current">
+      <span>
+        Current <img src="../assets/images/coin.png" />
+        : {{ coinService.coins }}
+      </span>
+    </div>
+    <h2>Ye olde shoppe</h2>
+    <div *ngFor="let item of shopService.items" (click)="buy(item)">
+      <img [src]="'../assets/images/' + item.image" />
+    </div>
+  </article>
+  <article id="sellArea">
+    <h2 id="sellHeader">Sell?</h2>
+    <section (click)="preSell()">
+    </section>
+    <section>
+      <div *ngIf="sellItem">
+        <strong>Sell {{ sellItem.name }} for: {{ sellItem.verkoopprijs }}?</strong>
+        <button class="btn btn-primary" (click)="sell()">
+          Y
+        </button>
+        <button class="btn btn-danger" (click)="cancelSell()">
+          N
+        </button>
+      </div>
+    </section>
+    <div *ngIf="soldItem">
+      <strong>Recently sold:</strong>
+      <img [src]="'../assets/images/' + soldItem.image">
+      <h3 id="soldPrice">{{ soldItem.verkoopprijs }}</h3>
+    </div>
+  </article>
+</section>

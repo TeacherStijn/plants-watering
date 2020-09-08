@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, ViewEncapsulation} from '@angular/core';
 import {InventoryService} from "./shared/inventory.service";
 import {Item} from "./shared/models/item.model";
 import {Plant} from "./shared/models/plant.model";

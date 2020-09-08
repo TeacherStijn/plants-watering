@@ -1,6 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
 import {Item} from "./models/item.model";
+import {Coin} from "./models/coin.model";
+import {ShopService} from "./shop.service";
+import {CoinService} from "./coin.service";
 
 @Injectable(
   { providedIn: 'root' }
@@ -9,16 +12,21 @@ export class InventoryService {
   inventoryBus$: Subject<Item>;
   verwijderBus$: Subject<Item>;
   actieBus$: Subject<Item>;
+  currentActie: Item;
   items: Item[] = [];
 
-  constructor() {
+  constructor(private coinService: CoinService) {
     this.inventoryBus$ = new Subject<Item>();
     this.verwijderBus$ = new Subject<Item>();
     this.actieBus$ = new Subject<Item>();
 
     this.inventoryBus$.subscribe(
       (data) => {
-        this.items.push(data);
+        if (data instanceof Coin) {
+          this.coinService.coinBus$.next(data);
+        } else {
+          this.items.push(data);
+        }
       }
     );
 
@@ -34,5 +42,21 @@ export class InventoryService {
         }
       }
     );
+
+    this.actieBus$.subscribe(
+      (data) => {
+        this.currentActie = data;
+      }
+    );
+  }
+
+  getCursor(): { cursor: string } {
+    return {
+      'cursor': 'url(../assets/images/' + this.currentActie.image + '), auto'
+    };
+  }
+
+  resetCursor(): void {
+    document.body.style.cursor = 'url(../assets/images/gieter_ico.png), auto';
   }
 }

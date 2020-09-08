@@ -4,6 +4,8 @@ import {Subject} from "rxjs";
 import {Seed, SeedNames} from "./models/seed.model";
 import {Rarity} from "./models/rarity.model";
 import {InventoryService} from "./inventory.service";
+import {Coin} from "./models/coin.model";
+import {CoinService} from "./coin.service";
 
 @Injectable(
   { providedIn: 'root' }
@@ -12,7 +14,8 @@ export class ShopService {
   items: Item[] = [];
   itemBus$: Subject<Item>;
 
-  constructor(private inventoryService: InventoryService) {
+  constructor(private inventoryService: InventoryService,
+              private coinService: CoinService) {
     this.itemBus$ = new Subject<Item>();
     this.itemBus$.subscribe(
       (data) => {
@@ -34,5 +37,11 @@ export class ShopService {
 
     this.inventoryService.inventoryBus$.next(item);
     return `Item ${item.name} gekocht!`;
+  }
+
+  sell(item) {
+    this.inventoryService.verwijderBus$.next(item);
+    this.coinService.coinBus$.next(new Coin(item.verkoopprijs));
+
   }
 }
