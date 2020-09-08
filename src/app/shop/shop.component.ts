@@ -25,8 +25,12 @@ export class ShopComponent implements OnInit, OnChanges {
   }
 
   buy(item) {
-    const result = this.shopService.buy(item);
-    alert(result);
+    if (this.coinService.coins >= item.aankoopprijs) {
+      const result = this.shopService.buy(item);
+      alert(result);
+    } else {
+      alert('Je hebt niet genoeg geld');
+    }
   }
 
   preSell() {

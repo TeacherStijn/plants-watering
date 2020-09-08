@@ -36,6 +36,7 @@ export class ShopService {
     );
 
     this.inventoryService.inventoryBus$.next(item);
+    this.coinService.coins -= item.aankoopprijs;
     return `Item ${item.name} gekocht!`;
   }
 
