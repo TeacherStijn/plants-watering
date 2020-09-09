@@ -26,6 +26,7 @@ export class ShopService {
     this.items.push(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
     this.items.push(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
     this.items.push(new Seed(SeedNames.MEDIOCRE, Rarity.UNCOMMON));
+    this.items.push(new Seed(SeedNames.GIANT, Rarity.RARE));
   }
 
   buy(item) {

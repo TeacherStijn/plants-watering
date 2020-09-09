@@ -29,7 +29,7 @@ export class ShopComponent implements OnInit, OnChanges {
       const result = this.shopService.buy(item);
       alert(result);
     } else {
-      alert('Je hebt niet genoeg geld');
+      alert('Je hebt niet genoeg geld. Nodig: ' + item.aankoopprijs);
     }
   }
 
@@ -40,6 +40,7 @@ export class ShopComponent implements OnInit, OnChanges {
       !(item instanceof Gieter) &&
       !(item instanceof Schep)) {
       this.sellItem = item;
+      console.log("Voorgestelde prijs: " + this.sellItem.verkoopprijs);
     } else {
       alert("You can't sell this!");
     }

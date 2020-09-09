@@ -16,9 +16,11 @@ export class Seed extends Item {
     //return this.name.valueOf();
 
     // Vervangen door ICON font met color overlay!
-    return "seed.png"; // basic_seed.png?
+    console.log("Seed name: "+ this.name.valueOf());
+    return this.name.valueOf(); // basic_seed.png?
   }
 
+  // zelfde gebruiken we voor planten
   get aankoopprijs() {
     switch (this.rarity) {
       case Rarity.COMMON: return 1; break;
@@ -32,5 +34,6 @@ export class Seed extends Item {
 
 export enum SeedNames {
   SIMPLE = "seed.png",
-  MEDIOCRE = "medium.png"
+  MEDIOCRE = "seed_medium.png",
+  GIANT = "seed_giant.png"
 }

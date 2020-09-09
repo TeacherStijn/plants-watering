@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
 import {Item} from "./models/item.model";
 import {Coin} from "./models/coin.model";
-import {ShopService} from "./shop.service";
 import {CoinService} from "./coin.service";
 
 @Injectable(

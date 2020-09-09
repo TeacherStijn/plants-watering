@@ -17,10 +17,20 @@ export class Plant extends Item {
     return (this.level > Plant.MAX_LEVEL ? Plant.MAX_LEVEL : this.level) + '.png';
   }
 
+  get aankoopprijs() {
+    switch (this.rarity) {
+      case Rarity.COMMON: return 2; break;
+      case Rarity.UNCOMMON: return 10; break;
+      case Rarity.RARE: return 25; break;
+      case Rarity.EPIC: return 100; break;
+      case Rarity.LEGENDARY: return 150; break;
+    }
+  }
+
   levelUp() {
     if (this.level !== 0 && this.level < Plant.MAX_LEVEL) {
       this.level++;
-      return new Coin(1);
+      //return new Coin(1);
     } else { // moet iets nauwkeuriger
       this.level++;
     }

@@ -9,6 +9,6 @@ export class Item {
   }
 
   get verkoopprijs() {
-    return this.aankoopprijs / 4;
+    return this.aankoopprijs / 2;
   }
 }

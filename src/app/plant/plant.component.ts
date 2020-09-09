@@ -84,11 +84,12 @@ export class PlantComponent implements OnInit {
           this.plantenService.planten.splice(this.plantenService.planten.indexOf(levelResult), 1);
         }
 
-        if (levelResult !== undefined) {
+        // Meesturen coin result?
+        /*if (levelResult !== undefined) {
           this.inventoryService.inventoryBus$.next(levelResult);
-        }
+        }*/
       } else {
-        console.log('Plant recently received water');
+        console.log('Plant recently received water (te recent of uberhaupt)');
       }
     } else if (this.actie.type.toLowerCase() === 'schep') {
       // Scheppen van grond heeft geen zin
@@ -108,6 +109,7 @@ export class PlantComponent implements OnInit {
       this.inventoryService.resetCursor();
     } else {
       // er is op iets anders geklikt
+      console.log("plantje?");
     }
   }
 }
