@@ -7,6 +7,7 @@ import {Grond} from "../shared/models/grond.model";
 import {Item} from "../shared/models/item.model";
 import {Gieter} from "../shared/models/gieter.model";
 import {Rarity} from "../shared/models/rarity.model";
+import {Seed} from "../shared/models/seed.model";
 
 @Component({
   selector: 'app-plant',
@@ -58,10 +59,9 @@ export class PlantComponent implements OnInit {
     }
   }
 
-  acties(item) {
+  acties(clickedSquare) {
     // Het is aan het plantje zélf om te level-uppen
     // Echter liggen de condities hier in de controller vast
-    console.log(this.actie);
     if (this.actie === undefined) {
       this.actie = new Gieter(1, Rarity.COMMON);
     }
@@ -74,27 +74,27 @@ export class PlantComponent implements OnInit {
     if (this.actie.type.toLowerCase() === 'gieter') {
       const now: any = new Date().getTime();
 
-      if (now - item.recentWaterTime >= 1000) {
-        console.log('Two minutes (1 sec) have passed');
-        const levelResult = item.levelUp();
-        item.recentWaterTime = now;
+      if (now - clickedSquare.recentWaterTime >= 1000) {
+        const levelResult = clickedSquare.levelUp();
+        clickedSquare.recentWaterTime = now;
 
         // Check of teruggegeven item plantje is en dood is
         if (levelResult instanceof Plant && levelResult.level === 0) {
           this.plantenService.planten.splice(this.plantenService.planten.indexOf(levelResult), 1);
         }
-
-        // Meesturen coin result?
-        /*if (levelResult !== undefined) {
-          this.inventoryService.inventoryBus$.next(levelResult);
-        }*/
       } else {
         console.log('Plant recently received water (te recent of uberhaupt)');
       }
     } else if (this.actie.type.toLowerCase() === 'schep') {
       // Scheppen van grond heeft geen zin
-      if (!(item instanceof Grond)) {
-        const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(item), 1, new Grond());
+      if (!(clickedSquare instanceof Grond)) {
+
+        // Alleen mogelijk maken indien je LEVEL
+        // vd schep hoger is dan plant?
+        // Dus: schep 1 bijv level 5 maken
+        // Schep 2 bijv level 10 maken
+        // enzovoorts! Check nog inbouwen =)
+        const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(clickedSquare), 1, new Grond());
         this.inventoryService.inventoryBus$.next(verwijderd[0]);
       }
     } else if (this.actie.type.toLowerCase() === 'seed') {
@@ -102,14 +102,18 @@ export class PlantComponent implements OnInit {
       // Of is .name en .rarity voldoende?
 
       // Onderstaand nieuwe plant op basis van Seed name =) en Seed rarity =)
-      const newPlant = new Plant(item.name, 1, new Date().getUTCMilliseconds(), item.rarity);
-      this.plantenService.replace(item, newPlant);
+      const huidigeSeed = this.actie as Seed; // ipv <Seed>this.actie
+      const newPlant = new Plant(huidigeSeed.name, 1, new Date().getUTCMilliseconds(), huidigeSeed.rarity);
+      this.plantenService.replace(clickedSquare, newPlant);
       this.inventoryService.verwijderBus$.next(this.actie);
       this.actie = new Item(new Date().getUTCMilliseconds(), 'gieter');
       this.inventoryService.resetCursor();
     } else {
       // er is op iets anders geklikt
       console.log("plantje?");
+      // Dit dus nog uitwerken; wanneer er op een plant
+      // geklikt is en deze in de grond wordt gezet..
+      // kán dat überhaupt?
     }
   }
 }

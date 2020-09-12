@@ -1,5 +1,3 @@
-import {DeadPlant} from "./deadplant.model";
-import {Coin} from "./coin.model";
 import {Item} from "./item.model";
 import {Rarity} from "./rarity.model";
 
@@ -18,19 +16,13 @@ export class Plant extends Item {
   }
 
   get aankoopprijs() {
-    switch (this.rarity) {
-      case Rarity.COMMON: return 2; break;
-      case Rarity.UNCOMMON: return 10; break;
-      case Rarity.RARE: return 25; break;
-      case Rarity.EPIC: return 100; break;
-      case Rarity.LEGENDARY: return 150; break;
-    }
+    // Berekening moet beter, o.a. op basis van level!
+    return (this.rarity.value.aankoopPrijsSeed * this.rarity.value.plantModifier) * (this.level);
   }
 
   levelUp() {
     if (this.level !== 0 && this.level < Plant.MAX_LEVEL) {
       this.level++;
-      //return new Coin(1);
     } else { // moet iets nauwkeuriger
       this.level++;
     }
@@ -40,10 +32,5 @@ export class Plant extends Item {
       this.level = 0;
       return this;
     }
-
-    /*    if (this.level === Plant.MAX_LEVEL) {
-          return new Coin(10);
-          }
-    */
   }
 }

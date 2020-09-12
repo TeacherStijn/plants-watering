@@ -40,9 +40,9 @@ export class ShopComponent implements OnInit, OnChanges {
       !(item instanceof Gieter) &&
       !(item instanceof Schep)) {
       this.sellItem = item;
-      console.log("Voorgestelde prijs: " + this.sellItem.verkoopprijs);
+      console.log('Voorgestelde prijs: ' + this.sellItem.verkoopprijs);
     } else {
-      alert("You can't sell this!");
+      alert('You can\'t sell this!');
     }
   }
 

@@ -16,19 +16,20 @@ export class Seed extends Item {
     //return this.name.valueOf();
 
     // Vervangen door ICON font met color overlay!
-    console.log("Seed name: "+ this.name.valueOf());
     return this.name.valueOf(); // basic_seed.png?
   }
 
   // zelfde gebruiken we voor planten
   get aankoopprijs() {
+    return this.rarity.value.aankoopPrijsSeed;
+/*
     switch (this.rarity) {
       case Rarity.COMMON: return 1; break;
       case Rarity.UNCOMMON: return 5; break;
       case Rarity.RARE: return 10; break;
       case Rarity.EPIC: return 40; break;
       case Rarity.LEGENDARY: return 100; break;
-    }
+    }*/
   }
 }
 

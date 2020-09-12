@@ -1,6 +1,7 @@
 export class Item {
   description;
   aankoopprijs;
+  rarity?;
   constructor(public id?: number, public type?: string) {
   }
 
