@@ -1,11 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Item} from "./models/item.model";
 import {Subject} from "rxjs";
-import {Seed, SeedNames} from "./models/seed.model";
+import {Seed} from "./models/seed.model";
 import {Rarity} from "./models/rarity.model";
 import {InventoryService} from "./inventory.service";
 import {Coin} from "./models/coin.model";
 import {CoinService} from "./coin.service";
+import {Plant, PlantNames} from "./models/plant.model";
 
 @Injectable(
   { providedIn: 'root' }
@@ -23,10 +24,24 @@ export class ShopService {
       }
     );
 
-    this.items.push(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
-    this.items.push(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
-    this.items.push(new Seed(SeedNames.MEDIOCRE, Rarity.UNCOMMON));
-    this.items.push(new Seed(SeedNames.GIANT, Rarity.RARE));
+    if (window.localStorage.getItem('shop') != undefined &&
+      !(JSON.parse(window.localStorage.getItem('shop')) instanceof Array)) {
+      console.log('Opgeslagen shop items gevonden');
+      let local = JSON.parse(window.localStorage.getItem('shop'));
+      local = [...local];
+      local.forEach(
+        (elem) => {
+          this.itemBus$.next(elem);
+        }
+      );
+    } else {
+      this.items.push(new Plant(PlantNames.CHAMOMILE, 1));
+      this.items.push(new Plant(PlantNames.DANDELION, 1));
+      this.items.push(new Seed(PlantNames.CHAMOMILE));
+      this.items.push(new Seed(PlantNames.CHAMOMILE));
+      this.items.push(new Seed(PlantNames.CHAMOMILE));
+      this.items.push(new Seed(PlantNames.CHAMOMILE));
+    }
   }
 
   buy(item) {

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {InventoryService} from "../shared/inventory.service";
 import {Item} from "../shared/models/item.model";
-import {Seed, SeedNames} from "../shared/models/seed.model";
+import {Seed} from "../shared/models/seed.model";
 import {Rarity} from "../shared/models/rarity.model";
 import {Schep} from "../shared/models/schep.model";
 import {Gieter} from "../shared/models/gieter.model";
+import {PlantNames} from "../shared/models/plant.model";
 
 @Component({
   selector: 'app-inventory',
@@ -25,7 +26,7 @@ export class InventoryComponent implements OnInit {
     if (window.localStorage.getItem('inventory') != undefined &&
       !(JSON.parse(window.localStorage.getItem('inventory')) instanceof Array)) {
       // ophalen Inventory
-      console.log('Opgeslagen data gevonden');
+      console.log('Opgeslagen inventory data gevonden');
       let local = JSON.parse(window.localStorage.getItem('inventory'));
       local = [...local];
       local.forEach(
@@ -37,7 +38,7 @@ export class InventoryComponent implements OnInit {
       // lege inventory (clean / begin item?)
       // gratis 10 zaadjes
       for (let i = 0; i <= 10; i++) {
-        this.inventoryService.inventoryBus$.next(new Seed(SeedNames.SIMPLE, Rarity.COMMON));
+        this.inventoryService.inventoryBus$.next(new Seed(PlantNames.CHAMOMILE));
       }
     }
   }

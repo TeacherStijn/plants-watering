@@ -1,8 +1,10 @@
+import {PlantNames} from "./plant.model";
+
 export class Item {
   description;
   aankoopprijs;
   rarity?;
-  constructor(public id?: number, public type?: string) {
+  constructor(public id?: number, public type?: string, public name?: PlantNames | string) {
   }
 
   get image() {

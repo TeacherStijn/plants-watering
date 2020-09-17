@@ -1,7 +1,7 @@
-import {Plant} from "./plant.model";
+import {Plant, PlantNames} from "./plant.model";
 
 export class DeadPlant extends Plant {
-  constructor(public name: string, public level: number) {
+  constructor(public name: PlantNames, public level: number) {
     super(name, level);
   }
 }

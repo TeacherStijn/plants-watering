@@ -4,15 +4,18 @@ import {Rarity} from "./rarity.model";
 export class Plant extends Item {
   static MAX_LEVEL = 8;
   recentWaterTime: any;
+  public readonly rarity: Rarity;
 
-  constructor(public name: string, public level: number, public id?: number, public rarity?: Rarity, public specs?: string) {
+  constructor(public name: PlantNames, public level: number, public specs?: string, public id?: number) {
     super();
     this.type = this.constructor.name;
+    this.id = new Date().getUTCMilliseconds();
     this.recentWaterTime = new Date().getTime();
+    this.rarity = this.name.value.rarity;
   }
 
   get image() {
-    return (this.level > Plant.MAX_LEVEL ? Plant.MAX_LEVEL : this.level) + '.png';
+    return 'plants/' + this.name.toString().toLowerCase() + '_' + (this.level > Plant.MAX_LEVEL ? Plant.MAX_LEVEL : this.level) + '.png';
   }
 
   get aankoopprijs() {
@@ -32,5 +35,20 @@ export class Plant extends Item {
       this.level = 0;
       return this;
     }
+  }
+}
+
+export class PlantNames {
+  static readonly CHAMOMILE = new PlantNames('CHAMOMILE', { rarity: Rarity.COMMON });
+  static readonly DANDELION = new PlantNames('DANDELION', { rarity: Rarity.COMMON });
+  static readonly LAVENDER = new PlantNames('LAVENDER', { rarity: Rarity.COMMON });
+  static readonly MAY_LILY = new PlantNames('MAY_LILY', { rarity: Rarity.UNCOMMON } );
+
+  private constructor(private readonly key: string, public readonly value: { rarity: Rarity }) {
+
+  }
+
+  public toString() {
+    return this.key;
   }
 }

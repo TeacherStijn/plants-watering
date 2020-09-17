@@ -29,6 +29,18 @@ export class AchievementService {
         found.done = true;
       }
     );
+
+    if (window.localStorage.getItem('achievements') != undefined &&
+      !(JSON.parse(window.localStorage.getItem('achievements')) instanceof Array)) {
+      console.log('Opgeslagen achievements gevonden');
+      let local = JSON.parse(window.localStorage.getItem('achievements'));
+      local = [...local];
+      local.forEach(
+        (elem) => {
+          this.achievementBus$.next(elem);
+        }
+      );
+    }
   }
 
   get doneAchievements(): Achievement[] {

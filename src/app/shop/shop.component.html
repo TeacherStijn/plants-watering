@@ -9,7 +9,7 @@
     <h2>Ye olde shoppe</h2>
     <div class="shopItem"
          *ngFor="let item of shopService.items"
-         [style.background-color]="item.rarity.value.color"
+         [style.background-color]="item.rarity.color"
          (click)="buy(item)">
       <img [src]="'../assets/images/' + item.image" />
     </div>

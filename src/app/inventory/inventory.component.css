@@ -8,4 +8,6 @@ div, div img {
   max-height: 150px;
   max-width: 500px;
   overflow: auto;
+  background-color: black;
+  color: white;
 }

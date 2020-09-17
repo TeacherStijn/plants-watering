@@ -1,12 +1,17 @@
 import {Rarity} from "./rarity.model";
 import {Item} from "./item.model";
+import {PlantNames} from "./plant.model";
 
 export class Seed extends Item {
-  constructor(public name: SeedNames, public rarity: Rarity) {
+
+  public readonly rarity: Rarity;
+
+  constructor(public name: PlantNames) {
     super();
     this.id = new Date().getUTCMilliseconds();
     this.type = this.constructor.name;
     this.description = 'A seed is used to plant in soil and (hopefully) grow a plant out of!';
+    this.rarity = this.name.value.rarity;
   }
 
   get image() {
@@ -16,7 +21,9 @@ export class Seed extends Item {
     //return this.name.valueOf();
 
     // Vervangen door ICON font met color overlay!
-    return this.name.valueOf(); // basic_seed.png?
+    const pad = `seeds/${this.name.valueOf().toString().toLowerCase()}_seed.png`;
+    console.log(pad);
+    return pad; // basic_seed.png?
   }
 
   // zelfde gebruiken we voor planten
@@ -33,8 +40,10 @@ export class Seed extends Item {
   }
 }
 
+/*
 export enum SeedNames {
   SIMPLE = "seed.png",
   MEDIOCRE = "seed_medium.png",
   GIANT = "seed_giant.png"
 }
+*/

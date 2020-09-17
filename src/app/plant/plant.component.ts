@@ -8,6 +8,7 @@ import {Item} from "../shared/models/item.model";
 import {Gieter} from "../shared/models/gieter.model";
 import {Rarity} from "../shared/models/rarity.model";
 import {Seed} from "../shared/models/seed.model";
+import {ShopService} from "../shared/shop.service";
 
 @Component({
   selector: 'app-plant',
@@ -26,7 +27,8 @@ export class PlantComponent implements OnInit {
   constructor(
     private inventoryService: InventoryService,
     private plantenService: PlantenService,
-    private achievementService: AchievementService
+    private achievementService: AchievementService,
+    private shopService: ShopService
   ) {}
 
   ngOnInit() {
@@ -39,8 +41,7 @@ export class PlantComponent implements OnInit {
 
     if (window.localStorage.getItem('planten') != undefined &&
       !(JSON.parse(window.localStorage.getItem('planten')) instanceof Array)) {
-      // ophalen Planten
-      console.log('Opgeslagen data gevonden');
+      console.log('Opgeslagen planten gevonden');
       let local = JSON.parse(window.localStorage.getItem('planten'));
       local = [...local];
       local.forEach(
@@ -103,7 +104,7 @@ export class PlantComponent implements OnInit {
 
       // Onderstaand nieuwe plant op basis van Seed name =) en Seed rarity =)
       const huidigeSeed = this.actie as Seed; // ipv <Seed>this.actie
-      const newPlant = new Plant(huidigeSeed.name, 1, new Date().getUTCMilliseconds(), huidigeSeed.rarity);
+      const newPlant = new Plant(huidigeSeed.name, 1);
       this.plantenService.replace(clickedSquare, newPlant);
       this.inventoryService.verwijderBus$.next(this.actie);
       this.actie = new Item(new Date().getUTCMilliseconds(), 'gieter');
@@ -115,5 +116,12 @@ export class PlantComponent implements OnInit {
       // geklikt is en deze in de grond wordt gezet..
       // kán dat überhaupt?
     }
+  }
+
+  save() {
+    localStorage.setItem('planten', JSON.stringify(this.plantenService.planten));
+    localStorage.setItem('inventory', JSON.stringify(this.inventoryService.items));
+    localStorage.setItem('shop', JSON.stringify(this.shopService.items));
+    localStorage.setItem('achivements', JSON.stringify(this.achievementService.achievements));
   }
 }

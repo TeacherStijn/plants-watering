@@ -6,18 +6,67 @@ header {
   width: 90vw;
 }
 
+header h1 {
+  background-color: #734021;
+  color: white;
+  border: solid #734021 20px;
+  border-radius: 20px;
+  width: 100%;
+  text-align: center;
+}
+
 header section {
   display: flex;
   flex-direction: row;
   min-height: 45vh;
+  border: solid black 20px;
+  border-radius: 20px;
 }
 
-nav:first-of-type {
+header, main, footer {
+  margin-bottom: 1em;
+}
+
+header nav:nth-of-type(1) li {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  border: solid transparent 15px;
+  border-radius: 15px;
+  font-size: 2em;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+header nav:nth-of-type(1) li:hover {
+  background-color: green;
+  color: white;
+  cursor: pointer;
+  border-color: green;
+}
+
+header nav:nth-of-type(1) li span {
+  font-size: larger;
+}
+
+section nav:nth-of-type(1){
   width: 70%;
-  border: solid 1px black;
+  background-color: black;
+  color: white;
 }
 
-nav:nth-of-type(2) {
+section nav:nth-of-type(2) {
   width: 30%;
-  border: solid 1px black;
+}
+
+main {
+  border: solid black 20px;
+  border-radius: 20px;
+}
+
+footer {
+  background-color: #734021;
+  color: white;
+  border: solid #734021 20px;
+  border-radius: 20px;
 }
