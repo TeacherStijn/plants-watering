@@ -7,6 +7,9 @@ import {Gieter} from "../shared/models/gieter.model";
 import {Rarity} from "../shared/models/rarity.model";
 import {Grond} from "../shared/models/grond.model";
 import {Schep} from "../shared/models/schep.model";
+import {Plant, PlantNames} from "../shared/models/plant.model";
+import {Seed} from "../shared/models/seed.model";
+import {Coin} from "../shared/models/coin.model";
 
 @Component({
   selector: 'app-shop',
@@ -22,12 +25,58 @@ export class ShopComponent implements OnInit, OnChanges {
               private coinService: CoinService) { }
 
   ngOnInit() {
+    if (window.localStorage.getItem('shop') != undefined &&
+      JSON.parse(window.localStorage.getItem('shop')).length > 0) {
+      console.log('Opgeslagen shop items gevonden');
+      let local = JSON.parse(window.localStorage.getItem('shop'));
+      local = [...local];
+      local.forEach(
+        (elem) => {
+          switch (elem.type.toLowerCase()) {
+            case 'seed':
+              // eigenlijk is name.key readonly
+              // ALS het al gemodelleerd zou zijn
+              elem = new Seed(PlantNames[elem.name.key]);
+              break;
+            case 'plant':
+              // eigenlijk is name.key readonly
+              // ALS het al gemodelleerd zou zijn
+              elem = new Plant(PlantNames[elem.name.key], elem.level, elem.id);
+              break;
+            default:
+              console.log('Winkel bevat unknown item (anders dan plant/seed');
+          }
+          this.shopService.itemBus$.next(elem);
+        }
+      );
+    } else {
+      this.shopService.itemBus$.next(new Plant(PlantNames.CHAMOMILE, 1));
+      this.shopService.itemBus$.next(new Plant(PlantNames.DANDELION, 1));
+      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
+      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
+      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
+      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
+      this.shopService.itemBus$.next(new Seed(PlantNames.LAVENDER));
+    }
+
+    const coinStorage = window.localStorage.getItem('coins');
+    if (coinStorage != undefined &&
+      Number.parseInt(coinStorage) > 0) {
+      console.log('Opgeslagen coins gevonden');
+      const local = JSON.parse(coinStorage);
+      this.coinService.coinBus$.next(new Coin(local));
+    } else {
+      this.coinService.coinBus$.next(new Coin(5));
+    }
   }
 
   buy(item) {
     if (this.coinService.coins >= item.aankoopprijs) {
-      const result = this.shopService.buy(item);
-      alert(result);
+      const confirm = window.confirm(`Wil je ${ item.name } kopen voor ${item.aankoopprijs}?`);
+      if (confirm === true) {
+        const result = this.shopService.buy(item);
+        alert(result);
+      }
     } else {
       alert('Je hebt niet genoeg geld. Nodig: ' + item.aankoopprijs);
     }

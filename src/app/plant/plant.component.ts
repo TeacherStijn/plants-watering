@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Plant} from "../shared/models/plant.model";
+import {Plant, PlantNames} from "../shared/models/plant.model";
 import {InventoryService} from "../shared/inventory.service";
 import {PlantenService} from "../shared/planten.service";
 import {AchievementService} from "../shared/achievement.service";
@@ -9,6 +9,7 @@ import {Gieter} from "../shared/models/gieter.model";
 import {Rarity} from "../shared/models/rarity.model";
 import {Seed} from "../shared/models/seed.model";
 import {ShopService} from "../shared/shop.service";
+import {CoinService} from "../shared/coin.service";
 
 @Component({
   selector: 'app-plant',
@@ -28,28 +29,46 @@ export class PlantComponent implements OnInit {
     private inventoryService: InventoryService,
     private plantenService: PlantenService,
     private achievementService: AchievementService,
-    private shopService: ShopService
+    private shopService: ShopService,
+    private coinService: CoinService
   ) {}
 
   ngOnInit() {
     this.inventoryService.actieBus$.subscribe(
       (data) => {
         this.actie = data;
-        console.log("Huidige actie = " + data.type);
+        console.log('Huidige actie = ' + data.type);
       }
     );
 
-    if (window.localStorage.getItem('planten') != undefined &&
-      !(JSON.parse(window.localStorage.getItem('planten')) instanceof Array)) {
-      console.log('Opgeslagen planten gevonden');
-      let local = JSON.parse(window.localStorage.getItem('planten'));
+    const plantStorage = window.localStorage.getItem('planten');
+    if (plantStorage != undefined &&
+      JSON.parse(plantStorage).length > 0) {
+      console.log(JSON.parse(plantStorage).length + ' Opgeslagen planten gevonden');
+      let local = JSON.parse(plantStorage);
       local = [...local];
       local.forEach(
         (elem) => {
+          console.log(elem.type);
+          switch (elem.type.toLowerCase()) {
+            case 'grond':
+              elem = new Grond();
+              break;
+            case 'plant':
+              // eigenlijk is name.key readonly
+              // ALS het al gemodelleerd zou zijn
+              elem = new Plant(PlantNames[elem.name.key], elem.level, elem.id);
+              break;
+            case 'seed':
+              // eigenlijk is name.key readonly
+              // ALS het al gemodelleerd zou zijn
+              elem = new Seed(PlantNames[elem.name.key]);
+          }
           this.plantenService.plantenBus$.next(elem);
         }
       );
     } else {
+      console.log("Geen bestaande data voor grond gevonden");
       for (let y = 1; y <= this.aantalY; y++) {
         for (let x = 1; x <= this.aantalX; x++) {
           this.plantenService.plantenBus$.next(
@@ -111,7 +130,7 @@ export class PlantComponent implements OnInit {
       this.inventoryService.resetCursor();
     } else {
       // er is op iets anders geklikt
-      console.log("plantje?");
+      console.log("whats this?");
       // Dit dus nog uitwerken; wanneer er op een plant
       // geklikt is en deze in de grond wordt gezet..
       // kán dat überhaupt?
@@ -123,5 +142,29 @@ export class PlantComponent implements OnInit {
     localStorage.setItem('inventory', JSON.stringify(this.inventoryService.items));
     localStorage.setItem('shop', JSON.stringify(this.shopService.items));
     localStorage.setItem('achivements', JSON.stringify(this.achievementService.achievements));
+    localStorage.setItem('coins', JSON.stringify(this.coinService.coins));
+  }
+
+  calcSize(item) {
+    const level = item.level ?
+                    item.level <= 10 ? item.level : 10
+                    : 10;
+    return {
+      'width': level * 30 + '%',
+      'height': level * 30 + '%'
+    };
+  }
+
+  calcStyle(item) {
+    const type = item.type.toLowerCase();
+    const kleur = type == 'plant' || type == 'seed' ? item.name.value.rarity.value.color : 'none';
+    if (type=='plant' || type=='seed') {
+      console.log(item.name.value.rarity.value.color);
+    }
+    return { 'width': + (100/this.aantalX) + '%'
+      , 'height': '100px'
+      , 'background-color': kleur
+      , 'opacity': type == 'plant' || type == 'seed' ? 0.7 : 1
+    };
   }
 }

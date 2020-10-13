@@ -5,7 +5,7 @@ export class Grond extends Item {
   constructor(public seed?: Seed) {
     super();
     this.id = new Date().getUTCMilliseconds();
-    this.type = 'grond';
+    this.type = 'Grond';
   }
 
   get image() {

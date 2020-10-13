@@ -11,3 +11,7 @@ div, div img {
   background-color: black;
   color: white;
 }
+
+#tools div:hover, #inventory div:hover {
+  cursor: grab;
+}

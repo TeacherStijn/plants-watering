@@ -1,15 +1,23 @@
-main {
-  width: 90vw;
+@media screen and (max-width: 500px) {
+  main, header, footer {
+    width: 90vw;
+    min-width: 350px;
+  }
 }
 
-header {
-  width: 90vw;
+@media screen and (min-width: 501px) {
+  main, header, footer {
+    width: 60vw;
+    min-width: 350px;
+  }
 }
+
+
 
 header h1 {
   background-color: #734021;
   color: white;
-  border: solid #734021 20px;
+  border: solid black 20px;
   border-radius: 20px;
   width: 100%;
   text-align: center;
@@ -29,7 +37,7 @@ header, main, footer {
 
 header nav:nth-of-type(1) li {
   display: inline-block;
-  width: 50%;
+  width: 33%;
   text-align: center;
   border: solid transparent 15px;
   border-radius: 15px;
@@ -59,7 +67,7 @@ section nav:nth-of-type(2) {
   width: 30%;
 }
 
-main {
+main, footer {
   border: solid black 20px;
   border-radius: 20px;
 }
@@ -67,6 +75,4 @@ main {
 footer {
   background-color: #734021;
   color: white;
-  border: solid #734021 20px;
-  border-radius: 20px;
 }

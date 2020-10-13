@@ -12,6 +12,7 @@
   <div *ngFor="let item of inventoryService.items">
     <img src="../assets/images/{{item.image}}"
          [alt]="item.description"
-         (click)="setActie(item, $event)" />
+         (click)="setActie(item, $event)"
+    />
   </div>
 </section>

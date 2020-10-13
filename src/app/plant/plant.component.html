@@ -1,7 +1,15 @@
 <div  *ngFor="let item of plantenService.planten"
-      [ngStyle]="{ 'width': + (100/aantalX) + '%', 'height': '100px' }">
-  <img src="../assets/images/{{ item.image }}"
-       [alt]="item.description"
-       (click)="acties(item)"
-       />
+      class="plantDiv"
+      (click)="acties(item)"
+      [ngStyle]="calcStyle(item)">
+  <div class="container">
+    <img src="../assets/images/{{ item.image }}"
+         [alt]="item.description"
+         [ngStyle]="calcSize(item)"
+         />
+    <span *ngIf="item.level"
+      class="levelBadge badge badge-pill badge-success">
+      {{ item.level }}
+    </span>
+  </div>
 </div>

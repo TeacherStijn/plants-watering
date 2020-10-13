@@ -3,7 +3,7 @@ import {PlantNames} from "./plant.model";
 export class Item {
   description;
   aankoopprijs;
-  rarity?;
+  //rarity?;
   constructor(public id?: number, public type?: string, public name?: PlantNames | string) {
   }
 

@@ -21,8 +21,7 @@ export class Seed extends Item {
     //return this.name.valueOf();
 
     // Vervangen door ICON font met color overlay!
-    const pad = `seeds/${this.name.valueOf().toString().toLowerCase()}_seed.png`;
-    console.log(pad);
+    const pad = `seeds/${this.name.toString().toLowerCase()}_seed.png`;
     return pad; // basic_seed.png?
   }
 

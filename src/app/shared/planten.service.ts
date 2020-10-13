@@ -34,7 +34,7 @@ export class PlantenService {
       // op level 1 (stekje)
       this.planten.splice(index, 1, bron);
     } else {
-      console.log ("Te vervangen plek niet gevonden");
+      console.log ('Te vervangen plek niet gevonden');
     }
   }
 }

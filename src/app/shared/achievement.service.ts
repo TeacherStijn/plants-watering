@@ -14,7 +14,7 @@ export class AchievementService {
   constructor() {
     // Init van mogelijke achievements
     this.achievements = [
-      new Achievement(1, "And so it begins", false, "First plant watered")
+      new Achievement(1, 'And so it begins', false, 'First plant watered')
     ];
 
     this.achievementBus$ = new Subject<string>();
@@ -30,14 +30,18 @@ export class AchievementService {
       }
     );
 
-    if (window.localStorage.getItem('achievements') != undefined &&
-      !(JSON.parse(window.localStorage.getItem('achievements')) instanceof Array)) {
+    const achievementStorage = window.localStorage.getItem('achievements');
+    if (achievementStorage != undefined &&
+      JSON.parse(achievementStorage).length > 0) {
       console.log('Opgeslagen achievements gevonden');
-      let local = JSON.parse(window.localStorage.getItem('achievements'));
+      let local = JSON.parse(achievementStorage);
       local = [...local];
+      // of niet op bus en direct vervangen
+      // ivm 'done' instelling?
       local.forEach(
+        // doorloop de 'done achievements' die zijn opgeslagen
         (elem) => {
-          this.achievementBus$.next(elem);
+          this.achievementBus$.next(elem.titel);
         }
       );
     }

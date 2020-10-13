@@ -13,11 +13,12 @@ export class AchievementComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (window.localStorage.getItem('achievements') != undefined &&
-      !(JSON.parse(window.localStorage.getItem('achievements')) instanceof Array)) {
+    const achievementStorage = window.localStorage.getItem('achievements');
+    if (achievementStorage != undefined &&
+      JSON.parse(achievementStorage).length > 0) {
       // ophalen Inventory
       console.log('Opgeslagen data gevonden');
-      let local = JSON.parse(window.localStorage.getItem('achievements'));
+      let local = JSON.parse(achievementStorage);
       local = [...local];
       local.forEach(
         (elem) => {
