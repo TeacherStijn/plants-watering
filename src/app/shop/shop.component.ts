@@ -50,12 +50,16 @@ export class ShopComponent implements OnInit, OnChanges {
         }
       );
     } else {
+      /*Hier een check of de huidige datum tussen
+      één of meer van de data reeksen zit?*/
+
+
       this.shopService.itemBus$.next(new Plant(PlantNames.CHAMOMILE, 1));
       this.shopService.itemBus$.next(new Plant(PlantNames.DANDELION, 1));
-      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
-      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
-      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
-      this.shopService.itemBus$.next(new Seed(PlantNames.CHAMOMILE));
+      const perm1 = new Seed(PlantNames.CHAMOMILE);
+      perm1.shopPersistent = true;
+      this.shopService.itemBus$.next(perm1);
+      console.log(perm1.shopPersistent);
       this.shopService.itemBus$.next(new Seed(PlantNames.LAVENDER));
     }
 
@@ -69,6 +73,8 @@ export class ShopComponent implements OnInit, OnChanges {
       this.coinService.coinBus$.next(new Coin(5));
     }
   }
+
+
 
   buy(item) {
     if (this.coinService.coins >= item.aankoopprijs) {

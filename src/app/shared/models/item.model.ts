@@ -4,7 +4,7 @@ export class Item {
   description;
   aankoopprijs;
   //rarity?;
-  constructor(public id?: number, public type?: string, public name?: PlantNames | string) {
+  constructor(public id?: number, public type?: string, public name?: PlantNames | string, public shopPersistent: boolean = false) {
   }
 
   get image() {

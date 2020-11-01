@@ -1,24 +1,25 @@
 <section>
   <article id="currentShop">
+    <h2>Shop</h2>
     <div id="current">
       <span>
-        Current <img src="../assets/images/coinbag.jpg" />
+        Current <img src="../assets/images/coinbag.png" />
         : {{ coinService.coins }}
       </span>
     </div>
-    <h2>Ye olde shoppe</h2>
     <div class="shopItem"
          *ngFor="let item of shopService.items"
          [style.background-color]="item.rarity.color"
          (click)="buy(item)">
+      <span *ngIf="item.shopPersistent" class="material-icons">hourglass_empty</span>
       <img [src]="'../assets/images/' + item.image" />
     </div>
   </article>
   <article id="sellArea">
     <h2 id="sellHeader">Sell?</h2>
+    <!--<section (click)="preSell()">-->
+    <!--</section>-->
     <section (click)="preSell()">
-    </section>
-    <section>
       <div *ngIf="sellItem">
         <strong>Sell {{ sellItem.name }} for: {{ sellItem.verkoopprijs }}?</strong>
         <button class="btn btn-primary" (click)="sell()">

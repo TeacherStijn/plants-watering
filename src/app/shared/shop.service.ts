@@ -27,7 +27,12 @@ export class ShopService {
   buy(item) {
     this.items = this.items.filter(
       (data) => {
-        return data !== item;
+        // Checken of het een onbeperkt item is
+        if (item.shopPersistent == false) {
+          return data !== item;
+        } else {
+          return data;
+        }
       }
     );
 
@@ -39,6 +44,5 @@ export class ShopService {
   sell(item) {
     this.inventoryService.verwijderBus$.next(item);
     this.coinService.coinBus$.next(new Coin(item.verkoopprijs));
-
   }
 }
