@@ -98,10 +98,15 @@ export class ShopComponent implements OnInit, OnChanges {
       console.log('Voorgestelde prijs: ' + this.sellItem.verkoopprijs);
     } else {
       alert('You can\'t sell this!');
+      console.log('Type: ' + item.type);
     }
   }
 
-  sell() {
+  sell(ev) {
+    /*Zorg ervoor dat hij niet denkt dat we
+    wederom op het grijze 'ik wil iets verkopen' vlak klikken*/
+    ev.stopPropagation();
+
     const item = this.inventoryService.currentActie;
     if (item !== undefined) {
       if (!(item instanceof Grond) &&

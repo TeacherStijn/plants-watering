@@ -22,7 +22,7 @@
     <section (click)="preSell()">
       <div *ngIf="sellItem">
         <strong>Sell {{ sellItem.name }} for: {{ sellItem.verkoopprijs }}?</strong>
-        <button class="btn btn-primary" (click)="sell()">
+        <button class="btn btn-primary" (click)="sell($event)">
           Y
         </button>
         <button class="btn btn-danger" (click)="cancelSell()">

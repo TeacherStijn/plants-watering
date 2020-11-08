@@ -46,4 +46,12 @@ export class AppComponent implements OnInit {
     window.localStorage.setItem('coins', JSON.stringify(this.coinService.coins));
     alert('Game saved!');
   }
+
+  screenshot(): void {
+    // Misschien niet echt een screenshot..
+    // maar meer een (door de server?) gegenereerde
+    // / geparste JSON op basis van de SAVEGAME?
+    // en dan deze middels (bijv?) Canvas
+    // opslaan?
+  }
 }

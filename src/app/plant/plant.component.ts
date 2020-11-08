@@ -10,6 +10,7 @@ import {Rarity} from "../shared/models/rarity.model";
 import {Seed} from "../shared/models/seed.model";
 import {ShopService} from "../shared/shop.service";
 import {CoinService} from "../shared/coin.service";
+import {Schep} from "../shared/models/schep.model";
 
 @Component({
   selector: 'app-plant',
@@ -94,7 +95,9 @@ export class PlantComponent implements OnInit {
     if (this.actie.type.toLowerCase() === 'gieter') {
       const now: any = new Date().getTime();
 
-      if (now - clickedSquare.recentWaterTime >= 1000) {
+      // straks!:
+      //if (now - clickedSquare.recentWaterTime >= (1000 * 60 * 60) * 2) {
+      if (now - clickedSquare.recentWaterTime >= (1000)) {
         const levelResult = clickedSquare.levelUp();
         clickedSquare.recentWaterTime = now;
 
@@ -103,7 +106,7 @@ export class PlantComponent implements OnInit {
           this.plantenService.planten.splice(this.plantenService.planten.indexOf(levelResult), 1);
         }
       } else {
-        console.log('Plant recently received water (te recent of uberhaupt)');
+        console.log('Plant recently received water');
       }
     } else if (this.actie.type.toLowerCase() === 'schep') {
       // Scheppen van grond heeft geen zin
@@ -111,11 +114,13 @@ export class PlantComponent implements OnInit {
 
         // Alleen mogelijk maken indien je LEVEL
         // vd schep hoger is dan plant?
-        // Dus: schep 1 bijv level 5 maken
-        // Schep 2 bijv level 10 maken
-        // enzovoorts! Check nog inbouwen =)
-        const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(clickedSquare), 1, new Grond());
-        this.inventoryService.inventoryBus$.next(verwijderd[0]);
+
+        if ((this.actie as Schep).level > (clickedSquare as Plant).level) {
+          const verwijderd = this.plantenService.planten.splice(this.plantenService.planten.indexOf(clickedSquare), 1, new Grond());
+          this.inventoryService.inventoryBus$.next(verwijderd[0]);
+        } else {
+          alert('Je schep is nog niet sterk genoeg! (nodig is: level ' + (clickedSquare as Plant).level + ')');
+        }
       }
     } else if (this.actie.type.toLowerCase() === 'seed') {
       // Nog verder customizen?

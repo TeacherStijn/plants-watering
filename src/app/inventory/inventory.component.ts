@@ -19,7 +19,7 @@ export class InventoryComponent implements OnInit {
 
   constructor(private inventoryService: InventoryService) {
     this.gieter = new Gieter(1, Rarity.COMMON);
-    this.schep = new Schep(1, Rarity.COMMON);
+    this.schep = new Schep(5, Rarity.COMMON);
   }
 
   ngOnInit() {
