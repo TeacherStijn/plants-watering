@@ -1,9 +1,9 @@
 section {
-  background-color: lightgray;
+  background-color: #9d8355;
   padding: 1em;
 
-  border: solid lightgray 15px;
-  border-radius: 15px;
+  border: solid #9d8355 15px;
+  color: white;
 }
 
 #currentShop div.shopItem, div img {
@@ -41,13 +41,10 @@ section {
 }
 
 #sellArea {
-  background-color: dimgrey;
+  background-color: #9d8355;
   padding: 0.5em;
   margin-top: 1em;
   font-size: large;
-
-  border: solid transparent 15px;
-  border-radius: 15px;
 }
 
 #sellArea section {

@@ -1,11 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Item} from "./models/item.model";
 import {Subject} from "rxjs";
-import {Seed} from "./models/seed.model";
 import {InventoryService} from "./inventory.service";
 import {Coin} from "./models/coin.model";
 import {CoinService} from "./coin.service";
-import {Plant, PlantNames} from "./models/plant.model";
+import {Seed} from "./models/seed.model";
+import {Gieter} from "./models/gieter.model";
+import {Schep} from "./models/schep.model";
 
 @Injectable(
   { providedIn: 'root' }
@@ -13,6 +14,9 @@ import {Plant, PlantNames} from "./models/plant.model";
 export class ShopService {
   items: Item[] = [];
   itemBus$: Subject<Item>;
+  sellItem: Item;
+  soldItem: Item;
+  buyItem: Item;
 
   constructor(private inventoryService: InventoryService,
               private coinService: CoinService) {
@@ -42,7 +46,24 @@ export class ShopService {
   }
 
   sell(item) {
-    this.inventoryService.verwijderBus$.next(item);
+    // Schep en Gieter verkopen mag niet
+    if (!(item instanceof Schep) && !(item instanceof Gieter)) {
+      this.inventoryService.verwijderBus$.next(item);
+    }
     this.coinService.coinBus$.next(new Coin(item.verkoopprijs));
+
+    // Check of item (Seed) terug kan naar winkel
+    // hij mag alleen niet shopPersistent zijn
+    if (item instanceof Seed) {
+      if (!item.shopPersistent) {
+        this.itemBus$.next(item);
+      }
+    }
+  }
+
+  addToShop(item) {
+    // wanneer je een item verkoopt,
+    // weer terug in winkel brengen mechanisme
+    // check dan wel of het om (enkel?) zaden gaat
   }
 }

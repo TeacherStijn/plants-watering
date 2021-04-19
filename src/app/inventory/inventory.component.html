@@ -1,11 +1,13 @@
 <section id="tools">
   <h2>Tools</h2>
-  <div>
-    <img src="../assets/images/{{gieter.image}}" (click)="setActie(gieter, $event)" />
+  <div *ngFor="let tool of inventoryService.permanentStorage">
+    <img src="../assets/images/{{tool.image}}" (click)="setActie(tool, $event)" />
   </div>
+<!--
   <div>
     <img src="../assets/images/{{schep.image}}" (click)="setActie(schep, $event)"/>
   </div>
+-->
 </section>
 <section id="inventory">
   <h2>Inventory</h2>

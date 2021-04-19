@@ -10,6 +10,9 @@ import {Schep} from "../shared/models/schep.model";
 import {Plant, PlantNames} from "../shared/models/plant.model";
 import {Seed} from "../shared/models/seed.model";
 import {Coin} from "../shared/models/coin.model";
+import {ModalService} from "../shared/modal.service";
+import {SellComponent} from "./sell.component";
+import {BuyComponent} from "./buy.component";
 
 @Component({
   selector: 'app-shop',
@@ -18,71 +21,23 @@ import {Coin} from "../shared/models/coin.model";
 })
 export class ShopComponent implements OnInit, OnChanges {
 
-  sellItem: Item;
-  soldItem: Item;
-  constructor(private shopService: ShopService,
+  constructor(private modalService: ModalService,
+              private shopService: ShopService,
               private inventoryService: InventoryService,
               private coinService: CoinService) { }
 
   ngOnInit() {
-    if (window.localStorage.getItem('shop') != undefined &&
-      JSON.parse(window.localStorage.getItem('shop')).length > 0) {
-      console.log('Opgeslagen shop items gevonden');
-      let local = JSON.parse(window.localStorage.getItem('shop'));
-      local = [...local];
-      local.forEach(
-        (elem) => {
-          switch (elem.type.toLowerCase()) {
-            case 'seed':
-              // eigenlijk is name.key readonly
-              // ALS het al gemodelleerd zou zijn
-              elem = new Seed(PlantNames[elem.name.key]);
-              break;
-            case 'plant':
-              // eigenlijk is name.key readonly
-              // ALS het al gemodelleerd zou zijn
-              elem = new Plant(PlantNames[elem.name.key], elem.level, elem.id);
-              break;
-            default:
-              console.log('Winkel bevat unknown item (anders dan plant/seed');
-          }
-          this.shopService.itemBus$.next(elem);
-        }
-      );
-    } else {
-      /*Hier een check of de huidige datum tussen
-      één of meer van de data reeksen zit?*/
-
-
-      this.shopService.itemBus$.next(new Plant(PlantNames.CHAMOMILE, 1));
-      this.shopService.itemBus$.next(new Plant(PlantNames.DANDELION, 1));
-      const perm1 = new Seed(PlantNames.CHAMOMILE);
-      perm1.shopPersistent = true;
-      this.shopService.itemBus$.next(perm1);
-      console.log(perm1.shopPersistent);
-      this.shopService.itemBus$.next(new Seed(PlantNames.LAVENDER));
-    }
-
-    const coinStorage = window.localStorage.getItem('coins');
-    if (coinStorage != undefined &&
-      Number.parseInt(coinStorage) > 0) {
-      console.log('Opgeslagen coins gevonden');
-      const local = JSON.parse(coinStorage);
-      this.coinService.coinBus$.next(new Coin(local));
-    } else {
-      this.coinService.coinBus$.next(new Coin(5));
-    }
   }
-
-
 
   buy(item) {
     if (this.coinService.coins >= item.aankoopprijs) {
-      const confirm = window.confirm(`Wil je ${ item.name } kopen voor ${item.aankoopprijs}?`);
-      if (confirm === true) {
-        const result = this.shopService.buy(item);
-        alert(result);
+
+      this.shopService.buyItem = item;
+      /* MODAL POPUP MAKEN */
+      const inputs = {
+         buyItem: this.shopService.buyItem
       }
+      this.modalService.init(BuyComponent, inputs, { buyItem: this.shopService.buyItem});
     } else {
       alert('Je hebt niet genoeg geld. Nodig: ' + item.aankoopprijs);
     }
@@ -94,37 +49,18 @@ export class ShopComponent implements OnInit, OnChanges {
     if (!(item instanceof Grond) &&
       !(item instanceof Gieter) &&
       !(item instanceof Schep)) {
-      this.sellItem = item;
-      console.log('Voorgestelde prijs: ' + this.sellItem.verkoopprijs);
+      this.shopService.sellItem = item;
+
+      /* MODAL POPUP MAKEN */
+      const inputs = {
+        // sellItem: this.shopService.sellItem
+      }
+      this.modalService.init(SellComponent, inputs, { soldItem: this.shopService.soldItem});
+      console.log('Voorgestelde prijs: ' + this.shopService.sellItem.verkoopprijs);
     } else {
-      alert('You can\'t sell this!');
+      alert('Dit kun je niet verkopen.');
       console.log('Type: ' + item.type);
     }
-  }
-
-  sell(ev) {
-    /*Zorg ervoor dat hij niet denkt dat we
-    wederom op het grijze 'ik wil iets verkopen' vlak klikken*/
-    ev.stopPropagation();
-
-    const item = this.inventoryService.currentActie;
-    if (item !== undefined) {
-      if (!(item instanceof Grond) &&
-        !(item instanceof Gieter) &&
-        !(item instanceof Schep)) {
-        console.log('Probeer te verkopen: ' + item.type);
-        this.shopService.sell(item);
-        this.inventoryService.actieBus$.next(new Gieter(1, Rarity.COMMON));
-        this.inventoryService.resetCursor();
-        this.soldItem = item;
-      }
-    }
-
-    this.sellItem = undefined;
-  }
-
-  cancelSell() {
-    this.sellItem = undefined;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

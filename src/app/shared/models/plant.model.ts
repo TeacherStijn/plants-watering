@@ -44,7 +44,7 @@ export class Plant extends Item {
 }
 
 export class PlantNames {
-  static readonly CHAMOMILE = new PlantNames('CHAMOMILE', { rarity: Rarity.COMMON });
+  static readonly DAISY = new PlantNames('DAISY', { rarity: Rarity.COMMON });
   static readonly DANDELION = new PlantNames('DANDELION', { rarity: Rarity.COMMON });
   static readonly LAVENDER = new PlantNames('LAVENDER', { rarity: Rarity.UNCOMMON });
   static readonly MAY_LILY = new PlantNames('MAY_LILY', { rarity: Rarity.UNCOMMON } );

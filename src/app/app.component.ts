@@ -6,6 +6,7 @@ import {PlantenService} from "./shared/planten.service";
 import {ShopService} from "./shared/shop.service";
 import {CoinService} from "./shared/coin.service";
 import {AchievementService} from "./shared/achievement.service";
+import {SaveService} from "./shared/save.service";
 
 @Component({
   selector: 'app-root',
@@ -14,19 +15,19 @@ import {AchievementService} from "./shared/achievement.service";
 })
 export class AppComponent implements OnInit {
   action: string = 'gieter';
+  screen: string;
 
-  planten: Plant[] = [];
+  /*planten: Plant[] = [];
   inventory: Item[] = [];
+*/
 
   constructor(
-    private inventoryService: InventoryService,
-    private plantenService: PlantenService,
-    private shopService: ShopService,
-    private achievementService: AchievementService,
-    private coinService: CoinService
+    private saveService: SaveService,
+    private inventoryService: InventoryService
   ) {}
 
   ngOnInit(): void {
+    this.saveService.load();
     this.inventoryService.resetCursor();
   }
 
@@ -39,19 +40,32 @@ export class AppComponent implements OnInit {
   }
 
   saven(ev) {
-    window.localStorage.setItem('planten', JSON.stringify(this.plantenService.planten));
-    window.localStorage.setItem('inventory', JSON.stringify(this.inventoryService.items));
-    window.localStorage.setItem('shop', JSON.stringify(this.shopService.items));
-    window.localStorage.setItem('achievements', JSON.stringify(this.achievementService.doneAchievements))
-    window.localStorage.setItem('coins', JSON.stringify(this.coinService.coins));
+    this.saveService.save();
     alert('Game saved!');
   }
 
-  screenshot(): void {
-    // Misschien niet echt een screenshot..
-    // maar meer een (door de server?) gegenereerde
-    // / geparste JSON op basis van de SAVEGAME?
-    // en dan deze middels (bijv?) Canvas
-    // opslaan?
+  async screenshot() {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const video = document.createElement("video");
+
+    try {
+      console.log("Capturen!");
+      // @ts-ignore
+      const captureStream = await navigator.mediaDevices.getDisplayMedia();
+      video.srcObject = captureStream;
+      context.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
+
+      // is PNG juiste type?
+      const frame = canvas.toDataURL("image/png");
+      captureStream.getTracks().forEach(track => track.stop());
+
+      // hier dus 'frame' uploaden ergens naartoe?
+      // of popup??
+      console.log(frame);
+      this.screen = frame;
+    } catch (err) {
+      console.error("Error: " + err);
+    }
   }
 }

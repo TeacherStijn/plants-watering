@@ -20,20 +20,12 @@
     <!--<section (click)="preSell()">-->
     <!--</section>-->
     <section (click)="preSell()">
-      <div *ngIf="sellItem">
-        <strong>Sell {{ sellItem.name }} for: {{ sellItem.verkoopprijs }}?</strong>
-        <button class="btn btn-primary" (click)="sell($event)">
-          Y
-        </button>
-        <button class="btn btn-danger" (click)="cancelSell()">
-          N
-        </button>
-      </div>
+
     </section>
-    <div *ngIf="soldItem">
+    <div *ngIf="shopService.soldItem">
       <strong>Recently sold:</strong>
-      <img [src]="'../assets/images/' + soldItem.image">
-      <h3 id="soldPrice">{{ soldItem.verkoopprijs }}</h3>
+      <img [src]="'../assets/images/' + shopService.soldItem.image">
+      <h3 id="soldPrice">{{ shopService.soldItem.verkoopprijs }}</h3>
     </div>
   </article>
 </section>

@@ -1,6 +1,7 @@
 <header>
   <!--<img src="../assets/images/header.jpg" />-->
   <h1>Magic Garden</h1>
+  <img *ngIf="screen" src="{{screen}}" width="200" />
   <nav>
     <ul>
       <li (click)="newGame()">
@@ -11,10 +12,9 @@
         Save
         <span class="material-icons">save_alt</span>
       </li>
-      <li>
-        Share screenshot!
-        <span class="material-icons" (click)="screenshot()">facebook</span>
-        <span class="material-icons"></span>
+      <li (click)="screenshot()">
+        Share!
+        <span class="material-icons">facebook</span>
       </li>
     </ul>
   </nav>
@@ -36,3 +36,7 @@
 <footer>
   <app-achievement></app-achievement>
 </footer>
+
+<div id="modal-container" class="hidden"></div>
+<div id="overlay" class="hidden" (click)="removeModal()"></div>
+

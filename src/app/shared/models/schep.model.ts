@@ -9,6 +9,10 @@ export class Schep extends Item {
   }
 
   get image() {
-    return "schep.png";
+    if (this.level%10==0) {
+      return 'schep_' + this.level + '.png';
+    } else {
+      return 'schep_1.png';
+    }
   }
 }
