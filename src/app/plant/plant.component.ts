@@ -12,6 +12,7 @@ import {ShopService} from "../shared/shop.service";
 import {CoinService} from "../shared/coin.service";
 import {Schep} from "../shared/models/schep.model";
 import {SaveService} from "../shared/save.service";
+import {EventCheckerService} from "../shared/eventchecker.service";
 
 @Component({
   selector: 'app-plant',
@@ -29,7 +30,8 @@ export class PlantComponent implements OnInit {
     private saveService: SaveService,
     private inventoryService: InventoryService,
     private plantenService: PlantenService,
-    private achievementService: AchievementService
+    private achievementService: AchievementService,
+    private eventCheckerService: EventCheckerService
   ) {}
 
   ngOnInit() {
@@ -46,7 +48,11 @@ export class PlantComponent implements OnInit {
     // Echter liggen de condities hier in de controller vast
 
     if (clickedSquare.hasOwnProperty('bevat')) {
-      // AAN INVENTORY het item BEVAT toevoegen
+      // Random event gaat af op basis van rarity van Artifact
+      this.eventCheckerService.randomEvent(clickedSquare.bevat.rarity);
+
+      // Random Artifact Toevoegen aan inventory
+      this.inventoryService.inventoryBus$.next(clickedSquare.bevat);
     }
 
     if (this.actie === undefined) {

@@ -73,17 +73,15 @@ export class SaveService {
     } else {
       console.log("Geen bestaande data voor grond gevonden");
 
-      const randomEvent = this.eventChecker.randomEvent();
+      const tileEvent = this.eventChecker.tileEvent(this.aantalX, this.aantalY);
       for (let y = 1; y <= this.aantalY; y++) {
         for (let x = 1; x <= this.aantalX; x++) {
-          if (randomEvent) {
-            if (randomEvent.x === x && randomEvent.y === y) {
-              const grond = new Grond();
-              grond.bevat = randomEvent.item;
-              this.plantenService.plantenBus$.next(
-                grond
-              );
-            }
+          if (tileEvent && tileEvent.x === x && tileEvent.y === y) {
+            const grond = new Grond();
+            grond.bevat = tileEvent.item;
+            this.plantenService.plantenBus$.next(
+              grond
+            );
           } else {
             this.plantenService.plantenBus$.next(
               new Grond()
