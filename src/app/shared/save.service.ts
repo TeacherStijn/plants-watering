@@ -50,6 +50,12 @@ export class SaveService {
       console.log(JSON.parse(plantStorage).length + ' Opgeslagen planten gevonden');
       let local = JSON.parse(plantStorage);
       local = [...local];
+      /*
+
+        CHECK INBOUWEN OF HUIDIGE CEL GEWOON GROND IS;
+        DAN RANDOM MOGELIJKHEID BIEDEN!
+
+       */
       local.forEach(
         (elem) => {
           console.log(elem.type);
