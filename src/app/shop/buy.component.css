@@ -1,8 +1,0 @@
-button {
-  background-color: #9d8355;
-  color: white;
-
-  border: solid #9d8355 20px;
-  border-image: url(../../assets/images/ui/inventory_border.png);
-  border-image-slice: 43 43 43 43;
-}

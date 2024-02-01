@@ -1,0 +1,42 @@
+<header>
+  <!--<img src="../assets/images/header.jpg" />-->
+  <h1>Garden Hustle</h1>
+  <img *ngIf="screen" src="{{screen}}" width="200" />
+  <nav>
+    <ul>
+      <li (click)="newGame()">
+        New game
+        <span class="material-icons">new_releases</span>
+      </li>
+      <li (click)="saven()">
+        Save
+        <span class="material-icons">save_alt</span>
+      </li>
+      <li (click)="screenshot()">
+        Share!
+        <span class="material-icons">facebook</span>
+      </li>
+    </ul>
+  </nav>
+  <section>
+    <nav>
+      <app-inventory></app-inventory>
+    </nav>
+    <nav>
+      <app-shop></app-shop>
+    </nav>
+  </section>
+  <audio autoplay>
+    <!--<source src="assets/medieval_theme.wav" type="audio/wav" />-->
+  </audio>
+</header>
+<main>
+  <app-plant></app-plant>
+</main>
+<footer>
+  <app-achievement></app-achievement>
+</footer>
+
+<div id="modal-container" class="hidden"></div>
+<div id="overlay" class="hidden" (click)="removeModal()"></div>
+

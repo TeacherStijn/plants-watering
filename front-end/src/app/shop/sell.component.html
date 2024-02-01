@@ -1,0 +1,10 @@
+<div>
+  <strong>Sell {{ shopService.sellItem.name }} for: {{ shopService.sellItem.verkoopprijs }}?</strong>
+  <br/>
+  <button (click)="sell($event)">
+    Y
+  </button>
+  <button (click)="cancelSell()">
+    N
+  </button>
+</div>

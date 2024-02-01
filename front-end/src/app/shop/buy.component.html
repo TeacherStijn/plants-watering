@@ -1,0 +1,13 @@
+<div>
+  <span (click)="close()">[X]</span>
+  <strong>Wil je {{ shopService.buyItem.name }} kopen voor {{ shopService.buyItem.aankoopprijs}}?</strong>
+  <br/>
+  <button (click)="buy($event)">
+    Y
+  </button>
+  <button (click)="cancelBuy()">
+    N
+  </button>
+</div>
+
+<span *ngIf="result">{{ result }}</span>

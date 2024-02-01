@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Garden Hustle</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div class="overlay" id="loadingOverlay">
+		<div class="text">One moment...</div>
+	</div>
+	<input type="text" id="emailInput" placeholder="Enter your e-mail address...">
+	<input type="password" id="apiKeyInput" placeholder="Enter your gamekey...">
+	<button id="loginButton">Play!</button><br/>
+
+	<hr/>
+	<button id="saveButton">Save</button><br/>
+	<button id="loadButton">Load</button><br/>
+
+	<div id="outputVeld">
+		<strong>Output:</strong><br/>
+	</div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	
+    <script src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.button-container {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.round-button {
+    display: flex;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+#recordButton {
+    background-color: limegreen;
+    border-color: limegreen;
+}
+
+#recordButton:hover {
+    border-color: #363535;
+}
+
+#favorites-sidebar {
+    position: fixed;
+	display: block;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
+}
+
+#favorites-list {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+	margin: 0.5em;
+}
+
+#favorites-list li img {
+    width: 100%;
+    /*height: 75px;*/
+    /*max-width: 200px;
+    max-height: 200px;*/
+}
+
+#favorites-list li img:hover {
+    cursor: pointer;
+}
+
+#favorites-button {
+    background-color: #e21d41;
+    border-color: #e21d41;
+}
+
+.round-button:hover {
+    border-color: #363535;
+}
+
+#tune-button {
+    background-color: orange;
+    border-color: orange;
+}
+
+#send-tune-button {
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+}
+
+#custom-container {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 2;
+}
+
+#custom-form {
+    display: none;
+    width: min-content;
+    max-width: 80vw;
+    z-index: 3;
+    margin: auto;
+}
+
+#custom-form section label, #custom-form button {
+    display: inline-block;
+    margin-top: 1em;
+}
+
+ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.hidden {
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.overlay .text {
+    color: white;
+    font-size: 24px;
+}
+
+#recordingStatus {
+	display: none;
+	color: red;
+	font-size: 20px;
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+#apiKeyInput {
+	margin-left: 1em;
+}

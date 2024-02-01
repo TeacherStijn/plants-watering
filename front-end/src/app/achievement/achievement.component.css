@@ -1,0 +1,10 @@
+div, div img {
+  width: 50px;
+  height: 50px;
+  display: inline;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+}

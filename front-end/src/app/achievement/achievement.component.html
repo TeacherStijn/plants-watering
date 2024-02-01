@@ -1,0 +1,4 @@
+<h2>Achievements</h2>
+<div *ngFor="let ach of achievementService.doneAchievements">
+  <img src="../assets/images/{{ ach.image }}" [title]="ach.titel" />
+</div>
